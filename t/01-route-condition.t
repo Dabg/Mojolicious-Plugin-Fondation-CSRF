@@ -63,7 +63,8 @@ subtest 'GET route always passes CSRF condition' => sub {
 subtest 'POST without any token fails' => sub {
     $t->post_ok('/protected' => form => { foo => 'bar' })
       ->status_is(403)
-      ->content_is('CSRF token missing or invalid');
+      ->text_is('.error-code', '403')
+      ->text_is('.error-title', 'CSRF token missing or invalid');
 };
 
 subtest 'POST without CSRF condition succeeds' => sub {
@@ -84,7 +85,8 @@ subtest 'POST with valid csrf_token form field succeeds' => sub {
 subtest 'POST with wrong csrf_token fails' => sub {
     $t->post_ok('/protected' => form => { csrf_token => 'wrong_token', foo => 'bar' })
       ->status_is(403)
-      ->content_is('CSRF token missing or invalid');
+      ->text_is('.error-code', '403')
+      ->text_is('.error-title', 'CSRF token missing or invalid');
 };
 
 subtest 'POST with X-CSRF-Token header succeeds' => sub {
@@ -98,11 +100,11 @@ subtest 'POST with X-CSRF-Token header succeeds' => sub {
 subtest 'POST with wrong X-CSRF-Token header fails' => sub {
     $t->post_ok('/protected' => {'X-CSRF-Token' => 'wrong_header_token'} => form => { foo => 'bar' })
       ->status_is(403)
-      ->content_is('CSRF token missing or invalid');
+      ->text_is('.error-code', '403')
+      ->text_is('.error-title', 'CSRF token missing or invalid');
 };
 
 subtest 'PUT method is also protected' => sub {
-    # Add a PUT route dynamically for this test
     my $token = $t->ua->get('/token')->res->json('/csrf_token');
 
     # PUT without token

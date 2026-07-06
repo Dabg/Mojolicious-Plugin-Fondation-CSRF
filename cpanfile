@@ -5,6 +5,7 @@ requires 'perl' => '5.026';
 # Runtime
 requires 'Mojolicious' => '9.46';
 requires 'Mojolicious::Plugin::Fondation';
+requires 'Mojolicious::Plugin::Fondation::Problem' => '0.01';
 
 # Testing
 on test => sub {

@@ -53,7 +53,8 @@ subtest 'GET routes are never blocked by around_dispatch' => sub {
 subtest 'POST without token is blocked by around_dispatch' => sub {
     $t->post_ok('/submit' => form => { foo => 'bar' })
       ->status_is(403)
-      ->content_is('CSRF token missing or invalid');
+      ->text_is('.error-code', '403')
+      ->text_is('.error-title', 'CSRF token missing or invalid');
 };
 
 subtest 'POST with valid token passes around_dispatch' => sub {

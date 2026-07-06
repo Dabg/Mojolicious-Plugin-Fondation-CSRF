@@ -8,7 +8,7 @@ our $VERSION = '0.01';
 
 sub fondation_meta {
     return {
-        dependencies => [],
+        dependencies => ['Fondation::Problem'],
         defaults     => {
             auto_protect => 1,
             exemptions   => [],
@@ -36,7 +36,7 @@ sub register ($self, $app, $config) {
             return 1;
         }
 
-        $c->render(text => 'CSRF token missing or invalid', status => 403);
+        $c->problem(status => 403, title => 'CSRF token missing or invalid');
         return undef;
     });
 
@@ -81,7 +81,7 @@ sub register ($self, $app, $config) {
                 return $next->();
             }
 
-            $c->render(text => 'CSRF token missing or invalid', status => 403);
+            $c->problem(status => 403, title => 'CSRF token missing or invalid');
             return;
         });
     }
