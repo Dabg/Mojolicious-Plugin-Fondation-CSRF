@@ -95,10 +95,6 @@ __END__
 
 =encoding UTF-8
 
-=head1 NAME
-
-Mojolicious::Plugin::Fondation::CSRF - CSRF protection for Fondation
-
 =head1 SYNOPSIS
 
     # In myapp.conf
